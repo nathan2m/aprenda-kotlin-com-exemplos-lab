@@ -1,21 +1,67 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
+enum class Nivel { INICIAL, MEDIO, AVANCADO }
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+data class Aluno(val nome: String)
 
-class Usuario
+data class ConteudoEducacional(val nome: String)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
-
-    val inscritos = mutableListOf<Usuario>()
+class Formacao(val nome: String, val nivel: Nivel) {
     
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    val conteudosAdicionados = mutableListOf<ConteudoEducacional>()
+    val alunosMatriculados = mutableListOf<Aluno>()
+    
+    fun adicionar(vararg conteudos: ConteudoEducacional) {
+        for(conteudo in conteudos){
+            conteudosAdicionados.add(conteudo)
+        	println("Conteúdo: '${conteudo.nome}' foi adicionado na formação: '$nome'")
+        }
+    }
+    
+    fun matricular(vararg alunos: Aluno) {
+        for(aluno in alunos) {
+           	alunosMatriculados.add(aluno)
+        	println("Aluno: '${aluno.nome}' foi matriculado na formação: '$nome'") 
+        } 
+    }
+    
+    fun printRelatorio() {
+        println("----------")
+        println("Formação: '$nome'")
+        println("Nível: '$nivel'")
+        println("----------")
+        if (conteudosAdicionados.size > 0){
+            println("Conteúdos adicionados:")
+            for (conteudo in conteudosAdicionados) {
+                println("'${conteudo.nome}'")
+            }
+        } else {
+            println("Não há conteúdos adicionados")
+        }
+        println("----------")
+        if (alunosMatriculados.size > 0) {
+            println("Alunos matriculados:")
+            for (aluno in alunosMatriculados) {
+                println("'${aluno.nome}'")
+            }
+        } else {
+            println("Não há alunos matriculados")
+        }
+        println("----------")
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val formacao1 = Formacao("Aprendendo Kotlin", Nivel.INICIAL)
+    
+    val conteudo1 = ConteudoEducacional("Olá Mundo")
+    val conteudo2 = ConteudoEducacional("Funções")
+    
+    formacao1.adicionar(conteudo1, conteudo2)
+    
+    val aluno1 = Aluno("Nathan")
+    val aluno2 = Aluno("Manera")
+    
+    formacao1.matricular(aluno1, aluno2)
+    
+   	formacao1.printRelatorio()
 }
